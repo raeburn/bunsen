@@ -9,3 +9,4 @@
     src: "{{ item.server }}:{{ item.src }}"
   with_items: "
     {{ hostvars[nfs_server].nfs_exports | difference(user_homes) }}"
+  when: inventory_hostname != nfs_server

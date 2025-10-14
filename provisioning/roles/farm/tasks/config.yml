@@ -88,3 +88,10 @@
     dest: /var/crash
     state: link
   become: yes
+
+- name: enable crash dumps
+  systemd:
+    name: kdump
+    state: started
+    enabled: yes
+  become: yes

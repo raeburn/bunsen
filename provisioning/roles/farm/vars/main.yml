@@ -21,6 +21,7 @@ _farm_packages:
     - elfutils
     - gdb
     - iscsi-initiator-utils
+    - kdump-utils
     - kernel-debuginfo
     - kexec-tools
     - libaio

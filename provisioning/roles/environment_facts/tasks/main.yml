@@ -16,9 +16,9 @@
       is_devvm: true
 
   - name: Get controller IPv4 info
-    local_action:
-      module: setup
+    setup:
       filter: ansible_default_ipv4
+    delegate_to: localhost
     delegate_facts: true
     run_once: true
 

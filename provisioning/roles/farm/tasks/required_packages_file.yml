@@ -6,7 +6,7 @@
 
   - name: Check for packages with multiple versions
     assert:
-      that: "{{ dups|length == 0 }}"
+      that: "dups|length == 0"
       msg: "multiple versions of packages installed: \
               {{ dups | sort | join(', ') }}"
     vars:

@@ -3,7 +3,7 @@
 # the firewall for the change to take effect.
 #
 # Input vars:
-#   port: <N>[-<M>]/<tcp|udp>
+#   firewall_port: <N>[-<M>]/<tcp|udp>
 #   open: true => open, false => close
 
 # Open/close the specified ports in the firewall.
@@ -12,9 +12,9 @@
     service_facts:
 
   - block:
-    - name: Modify Firewall Port {{ port }}
+    - name: Modify Firewall Port {{ firewall_port }}
       firewalld:
-        port: "{{ port }}"
+        port: "{{ firewall_port }}"
         state: "{{ (open | bool) | ternary('enabled', 'disabled') }}"
         permanent: true
         offline: true

@@ -22,5 +22,5 @@
   # Open the nfs tcp port in the firewall so machines can access our exports.
   - include_tasks: "{{ playbook_dir }}/library/firewall_port.yml"
     vars:
-      port: 2049/tcp
+      firewall_port: 2049/tcp
       open: true

@@ -181,7 +181,7 @@ extra_user_ntp_servers: "{{ (user_ntp_servers | default([])) | unique }}"
 common_ntp_servers: "{{ [] + extra_user_ntp_servers }}"
 
 # User nfs mounts to mount.
-extra_user_nfs_mounts: "{{ user_nfs_mounts | default({}) }}"
+extra_user_nfs_mounts: "{{ user_nfs_mounts | default([]) }}"
 
 # User sshfs mounts to mount.
 extra_user_sshfs_mounts: "{{ user_sshfs_mounts | default([]) }}"

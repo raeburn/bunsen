@@ -28,11 +28,7 @@
       - "{{ ((is_fedora | bool) or (is_rhel8_or_later_family | bool))
             | ternary('LINUX-VDO', 'ALL') }}"
       - "{{ is_performance_farm | bool | ternary('VDO-PMI', 'ALL') }}"
-    # For convenience above, we want to support something like the "omit"
-    # construct, but it doesn't work in simple list contexts; "omit" just
-    # expands to some magic cookie value which we still have to explicitly
-    # filter out.
-    class_list: "{{ classes | difference(omit) | join(',') }}"
+    class_list: "{{ classes | unique | join(',') }}"
   command: "rsvpclient --dhost {{ rsvp_server }} add {{ farm }} \
             --classes {{ class_list }}"
   become: yes

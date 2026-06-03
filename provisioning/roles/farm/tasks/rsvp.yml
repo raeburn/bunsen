@@ -1,14 +1,14 @@
 ---
 - name: Register with the RSVP server
   vars:
-    arch_class: "{{ ansible_architecture | upper }}"
+    arch_class: "{{ ansible_facts['architecture'] | upper }}"
     farm: "{{ inventory_hostname }}"
     os_class: "
-      {%- set distribution = ansible_distribution | upper -%}
+      {%- set distribution = ansible_facts['distribution'] | upper -%}
       {%- if distribution == 'REDHAT' -%}
-        RHEL{{ ansible_distribution_major_version }}
+        RHEL{{ ansible_facts['distribution_major_version'] }}
       {%- else -%}
-        {{ distribution }}{{ ansible_distribution_major_version }}
+        {{ distribution }}{{ ansible_facts['distribution_major_version'] }}
       {%- endif -%}"
     classes:
       - ALBIREO
@@ -41,7 +41,7 @@
   failed_when:
     - result.rc != 0
     - not (result.stderr is search(inventory_hostname ~ '.* already exists'))
-    - not (result.stderr is search(hostvars[inventory_hostname].ansible_fqdn ~ '.* already exists'))
+    - not (result.stderr is search(hostvars[inventory_hostname]['ansible_facts']['fqdn'] ~ '.* already exists'))
   changed_when: result.rc == 0
 
   # TODO: get the classes from the server.

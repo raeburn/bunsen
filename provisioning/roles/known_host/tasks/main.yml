@@ -3,7 +3,7 @@
 # Make certain we're known by our FQDN.
 - include_tasks: make_known.yml
   vars:
-    host: "{{ hostvars[inventory_hostname].ansible_fqdn }}"
+    host: "{{ hostvars[inventory_hostname]['ansible_facts']['fqdn'] }}"
 - include_tasks: make_known.yml
   vars:
     host: "{{ ansible_controller_ip }}"

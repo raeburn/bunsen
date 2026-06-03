@@ -26,7 +26,7 @@
       - { regexp: "^filesys_root:",
           line:   "filesys_root:  {{ filesys_root }}" }
     vars:
-      vgs: "{{ ansible_lvm.vgs }}"
+      vgs: "{{ ansible_facts['lvm'].vgs }}"
       vg_names: "{{ vgs.keys() | list }}"
       system_vg_name: "{{ vg_names[0] }}"
 

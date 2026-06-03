@@ -1,8 +1,8 @@
 # Repository variables.
 ---
 _repos_selection:
-  distribution: "{{ ansible_distribution + ansible_distribution_version }}"
-  architecture: "{{ ansible_machine }}"
+  distribution: "{{ ansible_facts['distribution'] + ansible_facts['distribution_version'] }}"
+  architecture: "{{ ansible_facts['machine'] }}"
   environment:
 
 _bunsen: "{{ externals['first-party']['bunsen']['host'] }}"
@@ -160,7 +160,7 @@ _repositories:
       gpgcheck: no
       sslverify: no
       baseurl: "{{ query('latest_repo_roots',
-                          (target_distribution, ansible_architecture)
+                          (target_distribution, ansible_facts['architecture'])
                             | join('/'))[0] }}/\
                   AppStream/$basearch/os/"
 
@@ -179,7 +179,7 @@ _repositories:
       gpgcheck: no
       sslverify: no
       baseurl: "{{ query('latest_repo_roots',
-                          (target_distribution, ansible_architecture)
+                          (target_distribution, ansible_facts['architecture'])
                             | join('/'))[0] }}/\
                   BaseOS/$basearch/os/"
 
@@ -205,7 +205,7 @@ _special_repositories:
       gpgcheck: no
       sslverify: no
       baseurl: "{{ query('special_released_repo_roots',
-                         (target_distribution, ansible_architecture)
+                         (target_distribution, ansible_facts['architecture'])
                          | join('/'))[0] }}/\
                   Everything/$basearch/os"
       cost: 1000000

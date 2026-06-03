@@ -30,7 +30,7 @@
 
   - name: List Perl module packages
     shell: |
-      {{ ansible_pkg_mgr }} search \
+      {{ ansible_facts['pkg_mgr'] }} search \
                  --disablerepo '*-debuginfo' \
                  {{ extra_repos | trim }} \
                  perl- 2>/dev/null
@@ -38,7 +38,7 @@
     changed_when: False
     register: dnf
 
-  - name: Parse and save {{ ansible_pkg_mgr }} list of Perl module packages
+  - name: Parse and save {{ ansible_facts['pkg_mgr'] }} list of Perl module packages
     set_fact:
       # regex_replace: Make lines with .src package names disappear.
       # regex_replace: Remove leading space.

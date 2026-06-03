@@ -42,7 +42,7 @@
                      --name scratch_{{ macaddress }} \
                      --size {{ size }} --lun 0"
      vars:
-       macaddress: "{{ ansible_default_ipv4.macaddress.split(':') | join }}"
+       macaddress: "{{ ansible_facts['default_ipv4'].macaddress.split(':') | join }}"
        pool_labels: "{{ pool_output.stdout_lines[0].split() }}"
        all_pools: "\
            {%- set temp = [] -%}
@@ -79,7 +79,7 @@
     host_luns: "\
         {{ all_luns
            | selectattr('initiator_wwn', 'match',
-                        '^' + ansible_iscsi_iqn + '$')
+                        '^' + ansible_facts['iscsi_iqn'] + '$')
            | list }}"
   when: (host_luns | length) == 0
 

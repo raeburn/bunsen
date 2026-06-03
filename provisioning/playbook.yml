@@ -38,7 +38,7 @@
     - name: Copy bunsen log template and add image build date/time
       vars:
         image_date_time:
-          "{{ '%Y%m%d_%H%M%S' | strftime(ansible_date_time.epoch) }}"
+          "{{ '%Y%m%d_%H%M%S' | strftime(ansible_facts['date_time'].epoch) }}"
       template:
         src: bunsen.log
         dest: /var/log/bunsen.log
@@ -144,7 +144,7 @@
     - name: Update bunsen log with successful install date/time
       vars:
         install_date_time:
-          "{{ '%Y%m%d_%H%M%S' | strftime(ansible_date_time.epoch) }}"
+          "{{ '%Y%m%d_%H%M%S' | strftime(ansible_facts['date_time'].epoch) }}"
       lineinfile:
         path: /var/log/bunsen.log
         regexp: '^Install Date:'

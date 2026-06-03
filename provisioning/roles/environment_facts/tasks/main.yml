@@ -24,7 +24,7 @@
 
   - name: Get controller IPv4 address
     set_fact:
-      ansible_controller_ip: "{{ hostvars['localhost']['ansible_default_ipv4']['address'] }}"
+      ansible_controller_ip: "{{ hostvars['localhost']['ansible_facts']['default_ipv4']['address'] }}"
 
   - name: Include ansible controller as an NTP server
     set_fact:

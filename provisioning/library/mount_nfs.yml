@@ -40,4 +40,4 @@
         that: "name in mount_points"
 
   vars:
-    mount_points: "{{ ansible_mounts | map(attribute='mount') | list }}"
+    mount_points: "{{ ansible_facts['mounts'] | map(attribute='mount') | list }}"

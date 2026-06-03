@@ -24,26 +24,26 @@ default_retry_count: 3
 default_retry_delay: 20
 
 # The targeted platform.
-target_distribution_name: "{{ ansible_distribution }}"
-target_distribution_major_number: "{{ ansible_distribution_version.split('.')[0] }}"
+target_distribution_name: "{{ ansible_facts['distribution'] }}"
+target_distribution_major_number: "{{ ansible_facts['distribution_version'].split('.')[0] }}"
 
 # Fedora does not have a minor number, for it we use 0.
 target_distribution_minor_number: "
   {%- set minor = 0 -%}
   {%- if target_distribution_name != 'Fedora' -%}
-    {%- set minor = ansible_distribution_version.split('.')[1] %}
+    {%- set minor = ansible_facts['distribution_version'].split('.')[1] %}
   {%- endif -%}
   {{ minor }}"
 
 target_distribution_major_name: "{{target_distribution_name}}{{ target_distribution_major_number}}"
-target_distribution: "{{ target_distribution_name }}{{ ansible_distribution_version | regex_replace('\\.') }}"
+target_distribution: "{{ target_distribution_name }}{{ ansible_facts['distribution_version'] | regex_replace('\\.') }}"
 # Machine architecture family variables
-is_family_ppc: '{{ ansible_machine.startswith("ppc") }}'
-is_family_s390: '{{ ansible_machine.startswith("s390") }}'
-is_family_x86: '{{ (ansible_machine == "i386")
-                    or ansible_machine.startswith("x86") }}'
+is_family_ppc: '{{ ansible_facts["machine"].startswith("ppc") }}'
+is_family_s390: '{{ ansible_facts["machine"].startswith("s390") }}'
+is_family_x86: '{{ (ansible_facts["machine"] == "i386")
+                    or ansible_facts["machine"].startswith("x86") }}'
 # Machine architecture variables
-is_arch_s390x: '{{ ansible_machine == "s390x" }}'
+is_arch_s390x: '{{ ansible_facts["machine"] == "s390x" }}'
 
 # Checking for Fedora vs. CentOS/RHEL
 is_fedora: '{{target_distribution_name == "Fedora"}}'
@@ -75,7 +75,7 @@ distribution_repo_root_url: "
   {%- set root_url = (repo_root_url | default('')) -%}
   {%- if root_url == '' -%}
     {%- set root_url = query('released_repo_roots',
-                             (target_distribution, ansible_architecture)
+                             (target_distribution, ansible_facts['architecture'])
                               | join('/'))[0] -%}
   {%- endif -%}
   {{ root_url }}"

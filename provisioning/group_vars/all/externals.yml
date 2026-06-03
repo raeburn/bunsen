@@ -4,7 +4,7 @@
 
 # The various software required for bunsen's internal functionality as well as
 # those bunsen will install on target machines during provisioning.
-_repo_prefix: "{{ is_rhel | ternary('epel', ansible_distribution | lower) }}"
+_repo_prefix: "{{ is_rhel | ternary('epel', ansible_facts['distribution'] | lower) }}"
 _distro_releasever: "{{ is_fedora | ternary('$releasever', target_distribution_major_number) }}"
 externals:
   # Resources for bunsen functionality.

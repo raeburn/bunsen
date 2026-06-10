@@ -57,7 +57,7 @@
      become: yes
 
   vars:
-    mount_points: "{{ ansible_mounts | json_query('[*].mount') }}"
+    mount_points: "{{ ansible_facts['mounts'] | json_query('[*].mount') }}"
     existing_lvs: "
       {%- set tmp = {} -%}
       {%- for section in (lvm_report_result.stdout | from_json).report -%}

@@ -35,18 +35,18 @@
         # distinguish the possibilities of nested virtualization. If it's not
         # available infer the machine is a virtualization guest if its
         # virtualization role is not 'host'.
-        guest_tech: "{{ ansible_virtualization_tech_guest
+        guest_tech: "{{ ansible_facts['virtualization_tech_guest']
                         | default(
-                            (ansible_virtualization_type != 'kvm')
+                            (ansible_facts['virtualization_type'] != 'kvm')
                             | ternary([],
-                                      (ansible_virtualization_role == 'host')
+                                      (ansible_facts['virtualization_role'] == 'host')
                                       | ternary([], ['kvm']))) }}"
         aux_disk: "{%- if 'kvm' in guest_tech -%}
                      vdb
                    {%- else -%}
                      sdb
                    {%- endif -%}"
-      when: aux_disk in ansible_devices.keys()
+      when: aux_disk in ansible_facts['devices'].keys()
 
     # Prepare the farm systems to use iscsi for testing.
     - block:
@@ -89,11 +89,11 @@
         # Assume any free space lives within the system volume group.
         - name: Using system volume group name for scratch storage
           set_fact:
-            scratch_vg: "{{ ansible_lvm.lvs['root'].vg }}"
+            scratch_vg: "{{ ansible_facts['lvm'].lvs['root'].vg }}"
             test_disk: ""
       when: (scratch_vg is not defined)
-              and ((ansible_lvm is defined) and (ansible_lvm is mapping))
-              and ('root' in ansible_lvm.lvs.keys())
+              and ((ansible_facts['lvm'] is defined) and (ansible_facts['lvm'] is mapping))
+              and ('root' in ansible_facts['lvm'].lvs.keys())
 
     - block:
         # scratch_vg not defined.
@@ -127,7 +127,7 @@
 
     - name: Setting scratch volume group name
       set_fact:
-        scratch_vg: "{{ ansible_default_ipv4.macaddress.split(':') | join }}"
+        scratch_vg: "{{ ansible_facts['default_ipv4'].macaddress.split(':') | join }}"
 
     when: use_storage_server and is_storage_client
 
@@ -251,7 +251,7 @@
            and (test_storage_device is not defined))
     become: yes
     vars:
-      free_gb: "{{ ansible_lvm.vgs[scratch_vg].free_g }}"
+      free_gb: "{{ ansible_facts['lvm'].vgs[scratch_vg].free_g }}"
 
   vars:
     vdo_scratch_min_gb: 100
@@ -259,8 +259,8 @@
     vdo_scratch_max_gb: 150
     existing_lvs: "
       {%- set tmp = {} -%}
-      {%- set lvs = ((ansible_lvm is defined) and (ansible_lvm is mapping))
-                    | ternary(ansible_lvm.lvs, {}) -%}
+      {%- set lvs = ((ansible_facts['lvm'] is defined) and (ansible_facts['lvm'] is mapping))
+                    | ternary(ansible_facts['lvm'].lvs, {}) -%}
       {%- for lv in lvs -%}
         {%- set x = tmp.update({ lvs[lv].vg+'/'+lv : 1 }) -%}
       {%- endfor -%}
@@ -274,5 +274,5 @@
     # kB required for u1 + vdo_scratch + slop
     required: "{{ ((farm_u1_size_gb | int) + vdo_scratch_min_gb + 1) * 1024 * 1024 }}"
     # mount point directory names
-    mount_points: "{{ ansible_mounts | map(attribute='mount') | list }}"
+    mount_points: "{{ ansible_facts['mounts'] | map(attribute='mount') | list }}"
 

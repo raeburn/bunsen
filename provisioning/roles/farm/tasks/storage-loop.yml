@@ -30,7 +30,7 @@
         creates: "{{ destination_path }}"
 
     vars:
-      free_space_kb: "{{ (ansible_mounts
+      free_space_kb: "{{ (ansible_facts['mounts']
                           | selectattr('mount', 'match',
                                         ('^', mount_path, '$') | join)
                           | list)[0].size_available / 1024 }}"
@@ -70,7 +70,7 @@
 
   - name: Picking scratch volume group name
     set_fact:
-      "{{ volume_group }}": "{{ ansible_default_ipv4.macaddress.split(':')
+      "{{ volume_group }}": "{{ ansible_facts['default_ipv4'].macaddress.split(':')
                                 | join }}"
 
   vars:

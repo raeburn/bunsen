@@ -1,7 +1,7 @@
 ---
 _kernel_selection:
-  distribution: "{{ ansible_distribution + ansible_distribution_version }}"
-  architecture: "{{ ansible_machine }}"
+  distribution: "{{ ansible_facts['distribution'] + ansible_facts['distribution_version'] }}"
+  architecture: "{{ ansible_facts['machine'] }}"
   environment:
 
 _kernel_packages:

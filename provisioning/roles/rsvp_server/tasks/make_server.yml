@@ -26,7 +26,7 @@
   # Open the RSVPD tcp port so machines can reach the service.
   - include_tasks: "{{ playbook_dir }}/library/firewall_port.yml"
     vars:
-      port: "{{ port_number ~ '/tcp' }}"
+      firewall_port: "{{ port_number ~ '/tcp' }}"
       open: true
   vars:
     port_number: 1752 # The rsvp server we deploy listens on 1752.

@@ -16,15 +16,15 @@
       is_devvm: true
 
   - name: Get controller IPv4 info
-    local_action:
-      module: setup
+    setup:
       filter: ansible_default_ipv4
+    delegate_to: localhost
     delegate_facts: true
     run_once: true
 
   - name: Get controller IPv4 address
     set_fact:
-      ansible_controller_ip: "{{ hostvars['localhost']['ansible_default_ipv4']['address'] }}"
+      ansible_controller_ip: "{{ hostvars['localhost']['ansible_facts']['default_ipv4']['address'] }}"
 
   - name: Include ansible controller as an NTP server
     set_fact:

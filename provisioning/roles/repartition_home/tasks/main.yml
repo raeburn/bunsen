@@ -11,4 +11,4 @@
   # homedir, not ansible_user's.
   when: "'/home' in mount_points
           and 'home' in existing_lvs
-          and '/home' not in ansible_env['PWD']"
+          and '/home' not in ansible_facts['env']['PWD']"

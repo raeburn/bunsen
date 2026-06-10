@@ -42,7 +42,7 @@
     line: '  isThirtyFive'
     state: present
   become: yes
-  when: isThirtyFiveIsMissing
+  when: isThirtyFiveIsMissing is changed
 
 # Check whether the 'ThirtyFive' is present in the $KNOWN_RELEASES.  If it's
 # missing, then register 'thirtyFiveIsMissing'.  Using check_mode: yes to
@@ -62,6 +62,6 @@
     regexp: 'ThirtyFour Rawhide\)'
     replace: 'ThirtyFour ThirtyFive Rawhide)'
   become: yes
-  when: thirtyFiveIsMissing
+  when: thirtyFiveIsMissing is changed
 
 

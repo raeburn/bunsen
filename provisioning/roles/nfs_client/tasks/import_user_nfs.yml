@@ -3,7 +3,7 @@
   # Mount the user additional nfs mounts.
   - include_tasks: "{{ playbook_dir }}/library/mount_nfs.yml"
     vars:
-      name: "{{ item.dest }}"
+      mount_point: "{{ item.dest }}"
       src: "{{ item.server }}:{{ item.src }}"
       extra_opts: "{{ item.opts | default(omit) }}"
     with_items: "{{ nfs_mounts }}"
